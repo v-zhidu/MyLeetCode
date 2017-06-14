@@ -1,151 +1,150 @@
-#! /usr/local/bin
-# -*- coding=UTF-8 -*-
-# lee_array.py
+# -*- encoding=utf-8 -*-
+"""
 
-__author__ = "v-zhidu"
+leetcode数组标签下的题目
+https://leetcode.com/tag/array/
+
+"""
+from __future__ import unicode_literals
 
 
-def find_pairs(nums, k):
-    """ 532. K-diff Pairs in an Array
+class LeetCodeArray(object):
 
-    Args:
-        nums: List[int]
-        k: int
-
-    Returns:
-        :rtype: int
-
-    Raises:
     """
+    Include all problems under array.
+    """
+    @staticmethod
+    def find_pairs(nums, k):
+        """
+        532 -> 解法二
+        """
+        if k < 0:
+            return 0
 
-    if k < 0:
-        return 0
-
-    dict = {}
-    s = 0
-    for num in nums:
-        if (dict.has_key(num)):
-            dict[num] = dict[num] + 1
+        count = 0
+        d = {}
+        for num in nums:
+            if d.has_key(num):
+                d[num] = d[num] + 1
+            else:
+                d[num] = 1
+        if k == 0:
+            for value in d.itervalues():
+                if value > 1:
+                    count = count + 1
         else:
-            dict[num] = 1
+            for num in d.iterkeys():
+                if d.has_key(num + k):
+                    count = count + 1
 
-    if k == 0:
-        for value in dict.itervalues():
-            if value > 1:
-                s = s + 1
-    else:
-        for key in dict.iterkeys():
-            if dict.has_key(key + k):
-                s = s + 1
+        return count
 
-    return s
+    @staticmethod
+    def find_max_consecutive_ones(nums):
+        """ summary of the function
 
+        Args:
+            nums: List[int]
 
-def find_max_consecutive_ones(nums):
-    """ summary of the function
+        Returns:
+            :rtype: int
 
-    Args:
-        nums: List[int]
+        Raises:
+        """
+        count = 0
+        result = 0
+        for num in nums:
+            if num == 1:
+                count += 1
+                result = max(count, result)
+            else:
+                count = 0
 
-    Returns:
-        :rtype: int
+        return result
 
-    Raises:
-    """
-    count = 0
-    result = 0
-    for num in nums:
-        if num == 1:
-            count += 1
-            result = max(count, result)
-        else:
-            count = 0
+    @staticmethod
+    def find_poisoned_duration(time_series, duration):
+        """ Teemo Attacking
 
-    return result
+        Args:
+            timeSeries: List[int]
+            duration: int
 
+        Returns:
 
-def find_poisoned_duration(timeSeries, duration):
-    """ Teemo Attacking
+        Raises:
+        """
+        result = duration * len(time_series)
+        for i in range(1, len(time_series)):
+            result -= max(0, duration - (time_series[i] - time_series[i - 1]))
 
-    Args:
-        timeSeries: List[int]
-        duration: int
+        return result
 
-    Returns:
+    @staticmethod
+    def find_disappeared_numbers(nums):
+        """ summary of the function
 
-    Raises:
-    """
-    result = duration * len(timeSeries)
-    for i in range(1, len(timeSeries)):
-        result -= max(0, duration - (timeSeries[i] - timeSeries[i - 1]))
+        Args:
+            nums: List[int]
 
-    return result
+        Returns:
+            :rtype: List[int]
 
+        Raises:
+        """
+        for i in enumerate(nums):
+            index = abs(i[1]) - 1
+            if nums[index] > 0:
+                nums[index] = -nums[index]
 
-def find_disappeared_numbers(nums):
-    """ summary of the function
+        arr = []
+        for i in enumerate(nums):
+            if i[1] > 0:
+                arr.append(i[0] + 1)
 
-    Args:
-        nums: List[int]
+        return arr
 
-    Returns:
-        :rtype: List[int]
+    @staticmethod
+    def find_duplicates(nums):
+        """ summary of the function
 
-    Raises:
-    """
-    for i in range(len(nums)):
-        index = abs(nums[i]) - 1
-        if nums[index] > 0:
-            nums[index] = -nums[index]
+        Args:
 
-    a = []
-    for i in range(len(nums)):
-        if nums[i] > 0:
-            a.append(i + 1)
+        Returns:
 
-    return a
+        Raises:
+        """
+        # Method 1
+        # nums.sort()
+        # res = []
+        # for i in range(len(nums) - 1):
+        #     if (nums[i] == nums[i + 1]):
+        #         res.append(nums[i])
 
+        # Method 2
+        res = []
+        for num in nums:
+            if nums[abs(num) - 1] < 0:
+                res.append(abs(num))
+            else:
+                nums[abs(num) - 1] *= -1
 
-def find_duplicates(nums):
-    """ summary of the function
-    
-    Args:
-    
-    Returns:
-    
-    Raises:
-    """
-    # Method 1
-    # nums.sort()
-    # res = []
-    # for i in range(len(nums) - 1):
-    #     if (nums[i] == nums[i + 1]):
-    #         res.append(nums[i])
+        return res
 
-    # Method 2
-    res = []
-    for x in nums:
-        if nums[abs(x) - 1] < 0:
-            res.append(abs(x))
-        else:
-            nums[abs(x) - 1] *= -1
+    @staticmethod
+    def find_third_max(nums):
+        """
+        fs
+        """
+        nums = list(set(nums))
+        if len(nums) < 3:
+            return max(nums)
 
-    return res
-
-
-def find_third_max(nums):
-
-    nums = list(set(nums))
-    if len(nums) < 3:
-        return max(nums)
-
-    nums.sort()
-    return nums[-3]
-
-
-def main():
-    pass
+        nums.sort()
+        return nums[-3]
 
 
 if __name__ == '__main__':
-    main()
+    nums = [1, 3, 1, 4, 5]
+    k = 0
+    print(LeetCodeArray.find_pairs_1(nums, k))
